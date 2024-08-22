@@ -1,11 +1,11 @@
 
-# User
+# users
 
 | Column             | Type    | Options                   |
 | ------------------ | ------  | ------------------------- |
-| nick_name          | string  | null: false               |
+| nickname           | string  | null: false               |
 | email              | string  | null: false, unique: true |
-| password           | string  | null: false               |
+| encrypted_password | string  | null: false               |
 | family_name        | string  | null: false               |
 | first_name         | string  | null: false               |
 | family_name_kana   | string  | null: false               |
@@ -17,7 +17,7 @@
 - has_many :items
 - has_many :purchase_records
 
-# Items 
+# items
 
 | Column                | Type       | Options                         |
 | --------------------  | ---------- | ------------------------------  |
@@ -36,7 +36,7 @@
 - belongs_to :user
 - has_one :purchase_record
 
-# Purchase_records
+# purchase_records
 
 | Column        | Type       | Options                        |
 | ------------- | ---------- | ------------------------------ |
@@ -49,18 +49,18 @@
 - belongs_to :item
 - has_one :shipping_address
 
-# Shipping_addresses
+# shipping_addresses
 
-| Column         | Type        | Options                         |
-| -------------- | ----------  | ------------------------------  |
-| purchase_record|references	 |null: false, foreign_key: true   |
-| zip_code       | string      | null: false                     |
-| prefecture_id  | integer     | null: false                     |
-| city           | string      | null: false                     |
-| street         | string      | null: false                     |
-| building       | string      |                                 |
-| phone_number   | string      | null: false                     |
+| Column          | Type        | Options                        |
+| --------------  | ----------- | ------------------------------ |
+| purchase_record | references  | null: false, foreign_key: true |
+| zip_code        | string      | null: false                    |
+| prefecture_id   | integer     | null: false                    |
+| city            | string      | null: false                    |
+| street          | string      | null: false                    |
+| building        | string      |                                |
+| phone_number    | string      | null: false                    |
 
 ### Association
 
-- belong_to :purchase_record
+- belongs_to :purchase_record
