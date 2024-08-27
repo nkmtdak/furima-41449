@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :user_name, :user_profile, :user_occupation, :user_position])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :nickname, :email, :password, :password_confirmation, :family_name, :first_name, :family_name_kana, :first_name_kana, :birth_date])
   end
 
    def move_to_index
