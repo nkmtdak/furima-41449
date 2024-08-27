@@ -8,10 +8,8 @@
   </div>
 
 <% if @user.errors.any? %>
-  <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-  <%= render 'shared/error_messages', model: f.object %>
-  <% end %>
-  <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+ <%= render 'shared/error_messages', model: f.object %>
+<% end %>
 
   <div class="form-group">
     <div class='form-text-wrap'>
