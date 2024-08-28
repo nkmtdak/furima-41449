@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create] 
 
   def index
     @items = Item.order("created_at DESC")
@@ -9,11 +10,12 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
+    @item = current_user.items.new(item_params)
     if @item.save
-      redirect_to @item
+      redirect_to items_path
     else
-      render :new, status: :unprocessable_entity
+     render :new, status: :unprocessable_entity
+
     end
 
   end
@@ -21,7 +23,16 @@ class ItemsController < ApplicationController
   private
   
   def item_params
-    params.require(:item).permit.permit(:name, :information, :category_id, :condition_id, :shipping_fee_id, :prefecture_id, :scheduled_delivery_id, :price, :image)
+    params.require(:item).permit(
+    :image,
+    :name,
+    :information,
+    :category_id,
+    :condition_id,
+    :shipping_fee_id,
+    :prefecture_id,
+    :scheduled_delivery_id,
+    :price
+    )
   end
-
 end
