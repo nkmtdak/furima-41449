@@ -1,10 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram id="IuNLo57fHtpuhDw_vLGg" name="ページ1">
-        <mxGraphModel dx="1157" dy="922" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="732" dy="922" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="40" style="edgeStyle=none;html=1;fontSize=12;endArrow=ERone;endFill=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" target="16" edge="1" source="2">
+                <mxCell id="40" style="edgeStyle=none;html=1;fontSize=12;endArrow=ERone;endFill=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="2" target="16" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="236" y="530" as="sourcePoint"/>
                         <mxPoint x="236" y="590" as="targetPoint"/>
@@ -15,8 +15,8 @@
                         <mxRectangle x="320" y="100" width="70" height="30" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="13" value="&lt;ul&gt;&lt;li&gt;user&lt;/li&gt;&lt;li&gt;name&lt;/li&gt;&lt;li&gt;price&lt;/li&gt;&lt;li&gt;information&lt;/li&gt;&lt;li&gt;category_id&lt;/li&gt;&lt;li&gt;item_condition&lt;/li&gt;&lt;li&gt;condition_id&lt;/li&gt;&lt;li&gt;shipping_free_id&lt;/li&gt;&lt;li&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;prefecture_id&lt;/div&gt;&lt;/li&gt;&lt;li&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div style=&quot;line-height: 18px;&quot;&gt;scheduled_delivery_id&lt;/div&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" parent="2" vertex="1">
-                    <mxGeometry x="30" y="35" width="175" height="210" as="geometry"/>
+                <mxCell id="13" value="&lt;ul&gt;&lt;li&gt;user&lt;/li&gt;&lt;li&gt;name&lt;/li&gt;&lt;li&gt;price&lt;/li&gt;&lt;li&gt;information&lt;/li&gt;&lt;li&gt;category_id&lt;/li&gt;&lt;li&gt;condition_id&lt;/li&gt;&lt;li&gt;shipping_free_id&lt;/li&gt;&lt;li&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;prefecture_id&lt;/div&gt;&lt;/li&gt;&lt;li&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px;&quot;&gt;&lt;div style=&quot;line-height: 18px;&quot;&gt;scheduled_delivery_id&lt;/div&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" parent="2" vertex="1">
+                    <mxGeometry x="27.5" y="45" width="175" height="210" as="geometry"/>
                 </mxCell>
                 <mxCell id="12" style="edgeStyle=none;html=1;endArrow=ERoneToMany;endFill=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
