@@ -1,7 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initializePriceCalculator() {
   const priceInput = document.getElementById("item-price");
   const addTaxPrice = document.getElementById("add-tax-price");
   const profit = document.getElementById("profit");
+
+  if (!priceInput || !addTaxPrice || !profit) return;
 
   const calculatePrice = () => {
     const price = parseInt(priceInput.value);
@@ -25,8 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
     profit.textContent = salesProfit.toLocaleString();
   };
 
-  priceInput.addEventListener("input", calculatePrice);
+  // イベントリスナーが既に追加されていないことを確認してから追加
+  if (!priceInput.dataset.listenerAdded) {
+    priceInput.addEventListener("input", calculatePrice);
+    priceInput.dataset.listenerAdded = "true";
+  }
   
   // 初期表示のために一度計算を実行
   calculatePrice();
-});
+}
+
+document.addEventListener("turbo:load", initializePriceCalculator);
+document.addEventListener("turbo:render", initializePriceCalculator);

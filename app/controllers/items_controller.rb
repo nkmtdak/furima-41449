@@ -2,7 +2,6 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create] 
 
   def index
-    @items = Item.order("created_at DESC")
   end
 
   def new
@@ -12,7 +11,7 @@ class ItemsController < ApplicationController
   def create
     @item = current_user.items.new(item_params)
     if @item.save
-      redirect_to items_path
+      redirect_to root_path
     else
      render :new, status: :unprocessable_entity
 
