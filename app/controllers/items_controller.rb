@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -32,7 +33,7 @@ class ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -50,5 +51,12 @@ class ItemsController < ApplicationController
       :scheduled_delivery_id,
       :price
     )
+  end
+
+  def ensure_correct_user
+    @item = Item.find(params[:id])
+    unless @item.user == current_user
+      redirect_to root_path
+    end
   end
 end
