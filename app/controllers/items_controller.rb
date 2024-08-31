@@ -28,7 +28,6 @@ class ItemsController < ApplicationController
   end
 
   def update
-
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
@@ -57,10 +56,8 @@ class ItemsController < ApplicationController
   end
 
   def ensure_correct_user
-    unless @item.user == current_user
-      redirect_to root_path
-    end
+    return if @item.user == current_user
+
+    redirect_to root_path
   end
 end
-
-
