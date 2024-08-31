@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_item, only: [:show, :edit, :update]
+  before_action :set_item, only: [:show, :edit, :update, :ensure_correct_user]
   before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
@@ -22,11 +22,9 @@ class ItemsController < ApplicationController
   end
 
   def show
-# @itemは既にbefore_actionで設定されています
   end
 
   def edit
-# @itemは既にbefore_actionで設定されています
   end
 
   def update
@@ -59,7 +57,6 @@ class ItemsController < ApplicationController
   end
 
   def ensure_correct_user
-    @item = Item.find(params[:id])
     unless @item.user == current_user
       redirect_to root_path
     end
