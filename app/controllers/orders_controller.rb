@@ -2,18 +2,23 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
   before_action :check_item_availability
+  before_action :check_if_own_item
+
   def index
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order = Order.new
   end
 
   def create
     @order = Order.new(order_params)
-    if @order.valid?
-      pay_item
+    @order.user = current_user
+    @order.item = @item
+  
+    if @order.valid? && process_payment
       @order.save
-      redirect_to root_path
+      redirect_to root_path, notice: '注文が完了しました'
     else
-      render 'index', status: :unprocessable_entity
+      render :index
     end
   end
 
@@ -23,22 +28,31 @@ class OrdersController < ApplicationController
     @item = Item.find(params[:item_id])
   end
 
-  def order_params
-    params.require(:order).permit(:token).merge(user_id: current_user.id, item_id: @item.id)
+  def check_item_availability
+    redirect_to root_path, alert: 'この商品は購入できません' if @item.sold_out?
   end
 
-  def pay_item
+  def check_if_own_item
+    redirect_to root_path, alert: '自分の商品は購入できません' if current_user == @item.user
+  end
+
+  def order_params
+    params.require(:order).permit(
+      :token,
+      shipping_address_attributes: [:zip_code, :prefecture_id, :city, :street, :building, :phone_number]
+    )
+  end
+
+  def process_payment
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
-    Payjp::Charge.create(
+    charge = Payjp::Charge.create(
       amount: @item.price,
       card: order_params[:token],
       currency: 'jpy'
     )
-  end
-
-  def check_item_availability
-    if @item.user == current_user || @item.sold_out?
-      redirect_to root_path
-    end
+    true
+  rescue Payjp::PayjpError => e
+    @order.errors.add(:base, "決済処理に失敗しました: #{e.message}")
+    false
   end
 end
