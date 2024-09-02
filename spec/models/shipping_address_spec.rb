@@ -27,13 +27,13 @@ RSpec.describe ShippingAddress, type: :model do
       it '郵便番号が「3桁ハイフン4桁」の形式でないと保存できない' do
         @shipping_address.zip_code = '1234567'
         @shipping_address.valid?
-        expect(@shipping_address.errors.full_messages).to include("Zip code must be in the format XXX-XXXX")
+        expect(@shipping_address.errors.full_messages).to include('Zip code must be in the format XXX-XXXX')
       end
 
       it '都道府県が選択されていないと保存できない' do
         @shipping_address.prefecture_id = 1
         @shipping_address.valid?
-        expect(@shipping_address.errors[:prefecture_id]).to include("must be selected")
+        expect(@shipping_address.errors[:prefecture_id]).to include('must be selected')
       end
 
       it '市区町村が空では保存できない' do
@@ -57,25 +57,25 @@ RSpec.describe ShippingAddress, type: :model do
       it '電話番号が9桁以下では保存できない' do
         @shipping_address.phone_number = '123456789'
         @shipping_address.valid?
-        expect(@shipping_address.errors.full_messages).to include("Phone number must be a half-width number with 10 to 11 digits")
+        expect(@shipping_address.errors.full_messages).to include('Phone number must be a half-width number with 10 to 11 digits')
       end
 
       it '電話番号が12桁以上では保存できない' do
         @shipping_address.phone_number = '123456789012'
         @shipping_address.valid?
-        expect(@shipping_address.errors.full_messages).to include("Phone number must be a half-width number with 10 to 11 digits")
+        expect(@shipping_address.errors.full_messages).to include('Phone number must be a half-width number with 10 to 11 digits')
       end
 
       it '電話番号にハイフンが含まれていると保存できない' do
         @shipping_address.phone_number = '090-1234-5678'
         @shipping_address.valid?
-        expect(@shipping_address.errors.full_messages).to include("Phone number must be a half-width number with 10 to 11 digits")
+        expect(@shipping_address.errors.full_messages).to include('Phone number must be a half-width number with 10 to 11 digits')
       end
 
       it '注文が紐付いていないと保存できない' do
         @shipping_address.order = nil
         @shipping_address.valid?
-        expect(@shipping_address.errors.full_messages).to include("Order must exist")
+        expect(@shipping_address.errors.full_messages).to include('Order must exist')
       end
     end
   end

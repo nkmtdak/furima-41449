@@ -5,31 +5,20 @@ class OrdersController < ApplicationController
   before_action :check_if_own_item
 
   def index
-    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-    @order = Order.new
-    @order.build_shipping_address
+    @order_form = OrderForm.new
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY'] # ここで公開鍵をgonにセット
   end
 
   def create
-    Rails.logger.info "Received params: #{params.inspect}"
-    @order = Order.new(order_params)
-    @order.user = current_user
-    @order.item = @item
-  
-    if @order.valid?
-      begin
-        ActiveRecord::Base.transaction do
-          process_payment(@item.price)
-          @order.save!
-          redirect_to root_path, notice: '注文が完了しました' and return
-        end
-      rescue => e
-        Rails.logger.error "Order creation failed: #{e.message}"
-        flash.now[:alert] = '注文の処理に失敗しました'
+    @order_form = OrderForm.new(order_params)
+    if @order_form.valid?
+      pay_item
+      if @order_form.save
+        redirect_to root_path, notice: '購入が完了しました。'
+      else
         render :index
       end
     else
-      flash.now[:alert] = '注文情報に問題があります'
       render :index
     end
   end
@@ -49,21 +38,17 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(
-      shipping_address_attributes: [:zip_code, :prefecture_id, :city, :street, :building, :phone_number]
-    ).merge(item_id: params[:item_id], token: params[:token])
+    params.require(:order_form).permit(
+      :zip_code, :prefecture_id, :city, :street, :building, :phone_number
+    ).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
   end
 
-  def process_payment(price)
+  def pay_item
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
-      amount: price,
+      amount: @item.price,
       card: order_params[:token],
       currency: 'jpy'
     )
-  rescue Payjp::PayjpError => e
-    Rails.logger.error "Payment processing failed: #{e.message}"
-    @order.errors.add(:base, "決済処理に失敗しました: #{e.message}")
-    raise e
   end
 end
