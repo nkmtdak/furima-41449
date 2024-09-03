@@ -1,7 +1,5 @@
 FactoryBot.define do
   factory :order_form do
-    user_id { create(:user).id }
-    item_id { create(:item).id }
     zip_code { '123-4567' }
     prefecture_id { 13 } # 東京都
     city { '渋谷区' }
@@ -10,4 +8,3 @@ FactoryBot.define do
     token { 'tok_abcdefghijk00000000000000000' }
   end
 end
-

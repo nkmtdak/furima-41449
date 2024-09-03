@@ -12,7 +12,8 @@ FactoryBot.define do
     scheduled_delivery_id { Faker::Number.between(from: 2, to: 4) }
 
     after(:build) do |item|
-      item.image.attach(io: File.open(Rails.root.join('spec', 'fixtures', 'test_image.jpg')), filename: 'test_image.jpg', content_type: 'image/jpeg')
+      item.image.attach(io: File.open(Rails.root.join('spec', 'fixtures', 'test_image.jpg')), filename: 'test_image.jpg',
+                        content_type: 'image/jpeg')
     end
   end
 end

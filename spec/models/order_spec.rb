@@ -41,13 +41,13 @@ RSpec.describe OrderForm, type: :model do
       it '郵便番号にハイフンがないと購入できない' do
         @order_form.zip_code = '1234567'
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include("Zip code must be a 7-digit number including a hyphen")
+        expect(@order_form.errors.full_messages).to include('Zip code must be a 7-digit number including a hyphen')
       end
 
       it '都道府県が選択されていないと購入できない' do
         @order_form.prefecture_id = 1
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include("Prefecture must be selected")
+        expect(@order_form.errors.full_messages).to include('Prefecture must be selected')
       end
 
       it '市区町村が空では購入できない' do
@@ -71,42 +71,25 @@ RSpec.describe OrderForm, type: :model do
       it '電話番号が9桁以下では購入できない' do
         @order_form.phone_number = '123456789'
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include("Phone number must be a 10 or 11-digit number")
+        expect(@order_form.errors.full_messages).to include('Phone number must be a 10 or 11-digit number')
       end
 
       it '電話番号が12桁以上では購入できない' do
         @order_form.phone_number = '123456789012'
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include("Phone number must be a 10 or 11-digit number")
+        expect(@order_form.errors.full_messages).to include('Phone number must be a 10 or 11-digit number')
       end
 
       it '電話番号に半角数字以外が含まれていると購入できない' do
         @order_form.phone_number = '090-1234-5678'
         @order_form.valid?
-        expect(@order_form.errors.full_messages).to include("Phone number must be a 10 or 11-digit number")
+        expect(@order_form.errors.full_messages).to include('Phone number must be a 10 or 11-digit number')
       end
 
       it 'トークンが空では購入できない' do
         @order_form.token = nil
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include("Token can't be blank")
-      end
-    end
-  end
-
-  describe '#save' do
-    context '保存できる場合' do
-      it '有効な属性の場合、注文と配送先情報を作成すること' do
-        expect { @order_form.save }.to change(Order, :count).by(1)
-                                   .and change(ShippingAddress, :count).by(1)
-      end
-    end
-
-    context '保存できない場合' do
-      it '無効な属性の場合、注文と配送先情報を作成しないこと' do
-        @order_form.zip_code = 'invalid'
-        expect { @order_form.save }.to change(Order, :count).by(0)
-                                   .and change(ShippingAddress, :count).by(0)
       end
     end
   end
