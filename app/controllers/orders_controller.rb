@@ -13,11 +13,8 @@ class OrdersController < ApplicationController
     @order_form = OrderForm.new(order_params)
     if @order_form.valid?
       pay_item
-      if @order_form.save
-        redirect_to root_path, notice: '購入が完了しました。'
-      else
-        render :index
-      end
+      @order_form.save
+      redirect_to root_path, notice: '購入が完了しました。'
     else
       render :index
     end

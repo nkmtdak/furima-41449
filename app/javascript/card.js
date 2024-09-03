@@ -3,7 +3,7 @@ const initializePayJP = (publicKey) => {
     console.error("Public key is not set");
     return null;
   }
-  return Payjp(publicKey, { debug: true });
+  return Payjp(publicKey);
 };
 
 const createCardElements = (payjp) => {
@@ -20,7 +20,6 @@ const mountCardElements = (elements) => {
     const element = document.getElementById(`${type}-form`);
     if (element) {
       elements[type].mount(`#${type}-form`);
-      console.log(`${type} element mounted successfully`);
     } else {
       console.error(`${type}-form element not found`);
     }
@@ -47,10 +46,7 @@ const handlePaymentSubmission = (payjp, elements, form) => {
 };
 
 const pay = () => {
-  console.log("pay function called");
   const publicKey = gon.public_key;
-  console.log("Public Key:", publicKey);
-
   const payjp = initializePayJP(publicKey);
   if (!payjp) return;
 
@@ -67,16 +63,10 @@ const pay = () => {
 };
 
 const initializePay = () => {
-  console.log("initializePay called");
   const chargeForm = document.getElementById('charge-form');
   if (chargeForm && !chargeForm.dataset.payInitialized) {
-    console.log("charge-form found and initializing");
     pay();
     chargeForm.dataset.payInitialized = 'true';
-  } else if (!chargeForm) {
-    console.log("charge-form not found");
-  } else {
-    console.log("charge-form already initialized");
   }
 };
 
