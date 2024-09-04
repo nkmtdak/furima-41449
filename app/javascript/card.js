@@ -1,74 +1,55 @@
-const initializePayJP = (publicKey) => {
-  if (!publicKey) {
-    console.error("Public key is not set");
-    return null;
-  }
-  return Payjp(publicKey);
-};
+document.addEventListener("turbo:load", () => {
+  initializePriceCalculator();
+  initializePayJPForm();
+});
 
-const createCardElements = (payjp) => {
-  const elements = payjp.elements();
-  return {
-    number: elements.create('cardNumber'),
-    expiry: elements.create('cardExpiry'),
-    cvc: elements.create('cardCvc')
-  };
-};
+document.addEventListener("turbo:render", () => {
+  initializePriceCalculator();
+  initializePayJPForm();
+});
 
-const mountCardElements = (elements) => {
-  ['number', 'expiry', 'cvc'].forEach(type => {
-    const element = document.getElementById(`${type}-form`);
-    if (element) {
-      elements[type].mount(`#${type}-form`);
-    } else {
-      console.error(`${type}-form element not found`);
-    }
-  });
-};
-
-const handlePaymentSubmission = (payjp, elements, form) => {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    try {
-      const response = await payjp.createToken(elements.number);
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-      const tokenInput = `<input value=${response.id} name='token' type="hidden">`;
-      form.insertAdjacentHTML("beforeend", tokenInput);
-      Object.values(elements).forEach(element => element.clear());
-      form.submit();
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert(`カード情報が正しくありません: ${error.message}`);
-    }
-  });
-};
-
-const pay = () => {
-  const publicKey = gon.public_key;
-  const payjp = initializePayJP(publicKey);
-  if (!payjp) return;
-
-  const elements = createCardElements(payjp);
-  mountCardElements(elements);
-
+function initializePayJPForm() {
   const form = document.getElementById('charge-form');
-  if (!form) {
-    console.error("Charge form not found. Make sure the form has the ID 'charge-form'");
-    return;
+  if (!form) return;
+
+  // PAY.JPの公開キーを設定
+  Payjp.setPublicKey("your_payjp_public_key");
+
+  // カード情報入力フォームの生成
+  const numberElement = Payjp.elements().create('cardNumber');
+  const expiryElement = Payjp.elements().create('cardExpiry');
+  const cvcElement = Payjp.elements().create('cardCvc');
+
+  numberElement.mount('#number-form');
+  expiryElement.mount('#expiry-form');
+  cvcElement.mount('#cvc-form');
+
+  // フォーム送信時の処理
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    Payjp.createToken(numberElement).then((response) => {
+      if (response.error) {
+        // エラー処理
+      } else {
+        // トークンをフォームに追加して送信
+        const tokenField = document.createElement('input');
+        tokenField.setAttribute('type', 'hidden');
+        tokenField.setAttribute('name', 'payjp_token');
+        tokenField.setAttribute('value', response.id);
+        form.appendChild(tokenField);
+        form.submit();
+      }
+    });
+  });
+}
+
+function initializePriceCalculator() {
+  // 既存のinitializePriceCalculator関数の内容
+}
+
+function resetFormFields() {
+  const form = document.getElementById('charge-form');
+  if (form) {
+    form.reset();
   }
-
-  handlePaymentSubmission(payjp, elements, form);
-};
-
-const initializePay = () => {
-  const chargeForm = document.getElementById('charge-form');
-  if (chargeForm && !chargeForm.dataset.payInitialized) {
-    pay();
-    chargeForm.dataset.payInitialized = 'true';
-  }
-};
-
-document.addEventListener("turbo:load", initializePay);
-document.addEventListener("turbo:render", initializePay);
+}
