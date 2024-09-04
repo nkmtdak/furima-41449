@@ -6,13 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= include_gon %>
-
     <script type="text/javascript" src="https://js.pay.jp/v2/pay.js"></script>
-   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     
   </head>
-
   <body>
     <%= yield %>
   </body>
