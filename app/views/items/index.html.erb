@@ -133,7 +133,7 @@
       <li class='list'>
         <%= link_to item_path(item) do %>
         <div class='item-img-content'>
-          <%= image_tag item.image, class: "item-img" if item.image.attached? %>
+          <%= image_tag item.image, class: "item-img" if item.image.attached? && Rails.env.production? %>
           <% if item.sold_out? %>
           <div class='sold-out'>
             <span>Sold Out!!</span>
